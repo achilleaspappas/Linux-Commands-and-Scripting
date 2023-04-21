@@ -1,0 +1,792 @@
+# Question 1.
+# Create in the current directory the file 'ask1.txt' with the following contents (firstname, #surname,
+# username, zip code, area, tel.), and then display it on the screen, with # its lines numbered.
+# George Pappas george2 12136 Peristeri -------
+# Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# George Georgioy george583 11132 Athens -------
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# Nick Pappas nick4 11223 Aigaleo 5324123
+# Helen Ioannoy helen367 13222 Athens -------
+# Helen Thanoy helen36 11132 Peristeri 9718345
+# Vasilis Mamalis vas32 12345 Dafni 9738383
+#
+# Answer:
+# To create a file in the directory I use the command nano ask1.txt and type them
+# details the question gives me. Then I press ctrl + x and y to save the contents.
+# Finally, display the numbered lines with the command cat -n ask1.txt .
+#
+# Result of executing the command:
+# 1 George Pappas george2 12136 Peristeri -------
+# 2 Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# 3 George Georgioy george583 11132 Athens -------
+# 4 Helen Georgioy helen3 12136 Peristeri 5748456
+# 5 Nick Pappas nick4 11223 Aigaleo 5324123
+# 6 Helen Ioannoy helen367 13222 Athens -------
+# 7 Helen Thanoy helen36 11132 Peristeri 9718345
+# 8 Vasilis Mamalis vas32 12345 Dafni 9738383
+
+nano ask1.txt
+cat -n ask1.txt
+
+#
+# Question 2.
+# Run cal -3 > calfile.txt and explain exactly what it does.
+#
+# Answer:
+# I run the command cal -3 > calfile.txt and it puts the last three months of the current year
+# of year 2020 in calfile.txt file.
+#
+# Result of executing the command:
+# cat calfile.txt
+#
+# 2020
+# October November December
+# Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa
+# 1 2 3 1 2 3 4 5 6 7 1 2 3 4 5
+# 4 5 6 7 8 9 10 8 9 10 11 12 13 14 6 7 8 9 10 11 12
+# 11 12 13 14 15 16 17 15 16 17 18 19 20 21 13 14 15 16 17 18 19
+# 18 19 20 21 22 23 24 22 23 24 25 26 27 28 20 21 22 23 24 25 26
+# 25 26 27 28 29 30 31 29 30 27 28 29 30 31
+#
+
+cal -3 > calfile.txt
+
+#
+# Question 3.
+# Merge calfile.txt and ask1.txt into a file named full.txt
+#
+# Answer:
+# Concatenate the files with the command cat calfile.txt ask1.txt > full.txt.
+#
+# Result of executing the command:
+# 2020
+# October November December
+# Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa
+# 1 2 3 1 2 3 4 5 6 7 1 2 3 4 5
+# 4 5 6 7 8 9 10 8 9 10 11 12 13 14 6 7 8 9 10 11 12
+# 11 12 13 14 15 16 17 15 16 17 18 19 20 21 13 14 15 16 17 18 19
+# 18 19 20 21 22 23 24 22 23 24 25 26 27 28 20 21 22 23 24 25 26
+# 25 26 27 28 29 30 31 29 30 27 28 29 30 31
+#
+# George Pappas george2 12136 Peristeri -------
+# Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# George Georgioy george583 11132 Athens -------
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# Nick Pappas nick4 11223 Aigaleo 5324123
+# Helen Ioannoy helen367 13222 Athens -------
+# Helen Thanoy helen36 11132 Peristeri 9718345
+# Vasilis Mamalis vas32 12345 Dafni 9738383
+#
+
+cat calfile.txt ask1.txt > full.txt
+
+#
+# Question 4.
+# Display the five most recently modified files in your directory.
+#
+# Answer:
+# I display the five most recent files in my directory with the command ls -t | head -5. The ls -t
+# show me the files in the directory by modified time and | head -5 takes
+# the result of the previous command and selects the last 5.
+#
+# Result of executing the command:
+# full.txt
+# calfile.txt
+# ask1.txt
+#
+
+ls -t | head -5
+
+#
+# Question 5.
+# Create a directory named 'mydir1'. Go to it and then copy there (without
+# change directory) the file 'full.txt' (from the parent directory). Then rename it to
+# 'new.txt'.
+# Return to parent directory. Delete the directory 'mydir1' and its contents.
+#
+# Answer:
+# I create the directory with the command mkdir mydir1. I go to it with the command cd mydir1.
+# Copy the file to the current directory with the command cp ~/full.txt ~/mydir1 and rename it
+# with the command mv full.txt new.txt. Finally I return to the parent directory with the command cd .. .
+#
+# Result of executing the command:
+#
+# mkdir mydir1
+# ls -l
+#
+# total 16
+# -rw-rw-r-- 1 ice18390010 ice18390010 354 Nov 17 19:50 ask1.txt
+# -rw-rw-r-- 1 ice18390010 ice18390010 573 Nov 17 20:06 calfile.txt
+# -rw-rw-r-- 1 ice18390010 ice18390010 927 Nov 17 20:07 full.txt
+# drwxrwxr-x 2 ice18390010 ice18390010 4096 Nov 17 20:20 mydir1
+#
+# cd mydir1
+# pwd
+#
+# /home/ice18390010/mydir1
+#
+# cp ~/full.txt ~/mydir1
+# ls -l
+#
+# full.txt
+#
+# mv full.txt new.txt
+# ls -l
+#
+# new.txt
+#
+# cd ..
+# pwd
+#
+# /home/ice18390010
+#
+
+mkdir mydir1
+cd mydir1
+cp ~/full.txt ~/mydir1
+mv full.txt new.txt
+CD..
+
+#
+# Question 6.
+# Give the commands that will display: (a) all files in the /usr directory with inode information
+# of them and their size in blocks. (b) all contents of the directory tree and subdirectories
+# (recursively) located under the /usr directory, with full information about each of them
+# and appearing gradually, page by page.
+#
+# Answer:
+# (a) ls -is /usr where i indicates the inodes and s the size in blocks.
+# (b) ls -lR /usr | more where l ma shows all the information for each directory, file and
+# R to search all subdirectories (tree) and files inside the /usr directory.
+# End the | more shows us the results of ls -lR gradually every time we press enter.
+#
+# Result of executing the command:
+# (a) ls -is /usr
+# total 72
+# 949 40 bin 1267 4 lib 3951 4 sbin
+# 1264 4 games 403024 4 libexec 4021 4 share
+# 1265 4 include 3938 4 local 8656 4 src
+#
+# where the first column is the inodes and the second the block sizes.
+#
+# (b) ls -lR /usr | more
+# /usr:
+# total 72
+# drwxr-xr-x 2 root root 36864 Nov 9 17:20 bin
+# drwxr-xr-x 2 root root 4096 Apr 12 2016 games
+# drwxr-xr-x 37 root root 4096 Oct 14 01:07 include
+# drwxr-xr-x 76 root root 4096 Nov 9 17:07 lib
+# drwxr-xr-x 3 root root 4096 Oct 14 00:28 libexec
+# drwxr-xr-x 10 root root 4096 May 13 2016 local
+# drwxr-xr-x 2 root root 4096 Nov 9 17:07 sbin
+# drwxr-xr-x 147 root root 4096 Nov 2 17:28 share
+# drwxr-xr-x 8 root root 4096 Oct 23 14:49 src
+#
+# /usr/bin:
+# total 425496
+# -rwxr-xr-x 1 root root 51920 Mar 2 2017 [
+# lrwxrwxrwx 1 root root 8 Nov 24 2017 2to3 -> 2to3-2.7
+# -rwxr-xr-x 1 root root 96 Oct 5 21:00 2to3-2.7
+# -rwxr-xr-x 1 root root 96 Oct 9 19:53 2to3-3.5
+# -rwxr-xr-x 1 root root 22696 May 29 2019 aa-enabled
+# -rwxr-xr-x 1 root root 15072 Apr 9 2016 acpi_listen
+# -rwxr-xr-x 1 root root 6513 Aug 7 21:51 add-apt-repository
+# -rwxr-xr-x 1 root root 18888 Jan 27 2020 addpart
+# lrwxrwxrwx 1 root root 26 Dec 7 2018 addr2line -> x86_64-linux-gnu
+# --More--
+#
+
+ls -is /usr
+ls -lR /usr | more
+
+#
+# Question 7.
+# Create a directory named 'testdir1'. Go to it and make a hard link there
+# (named 'ask1link') to the parent directory's 'ask1.txt' file. Make sure (by giving
+# the appropriate command and explaining what you see) that it has been created and that it is not symbolic
+# (soft) link.
+#
+# Answer:
+# I create a directory mkdir testdir1 . I go to it cd testdir1 . I am creating a hard link
+# with ln ~/ask1.txt ~/testdir1/ask1link .
+#
+# Result of executing the command:
+#
+# ln ~/ask1.txt ~/testdir1/ask1link
+# ls -l
+#
+# total 4
+# 929858 -rw-rw-r-- 2 ice18390010 ice18390010 354 Nov 17 19:50 ask1link
+#
+# ls -l ~
+#
+# total 20
+# 929858 -rw-rw-r-- 2 ice18390010 ice18390010 354 Nov 17 19:50 ask1.txt
+# 929860 -rw-rw-r-- 1 ice18390010 ice18390010 573 Nov 17 20:06 calfile.txt
+# 929859 -rw-rw-r-- 1 ice18390010 ice18390010 927 Nov 17 20:07 full.txt
+# 1183668 drwxrwxr-x 2 ice18390010 ice18390010 4096 Nov 17 20:30 mydir1
+# 1183687 drwxrwxr-x 2 ice18390010 ice18390010 4096 Nov 17 21:05 testdir1
+#
+# 2 (column 3) in ask1link and ask1.txt means that the set of data they show is expressed
+# with 2 links ask1 and ask1link. The first number in both files (first column at 929858) is the inode
+# and since they are the same means they point to the same file. That's why it's a hard link. If it was
+# soft links would have a different inode.
+
+ln ~/ask1.txt ~/testdir1/ask1link
+
+#
+# Question 8.
+# Go into the 'ask1link' file and delete its last line. Then make sure that the
+# this change has also been made in the file 'ask1.txt'.
+#
+# Answer:
+# nano ask1link and delete the last line. I cd .. , I check with cat ask1.txt the contents
+# of ask1.txt and I see that the last line has been deleted.
+#
+# Result of executing the command:
+#
+# nano ask1link
+#
+# cd ..
+# cat ask1.txt
+#
+# George Pappas george2 12136 Peristeri -------
+# Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# George Georgioy george583 11132 Athens -------
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# Nick Pappas nick4 11223 Aigaleo 5324123
+# Helen Ioannoy helen367 13222 Athens -------
+# Helen Thanoy helen36 11132 Peristeri 9718345
+#
+
+nano ask1link
+cd..
+cat ask1.txt
+
+#
+# Question 9.
+# Create a directory kat1 and inside it two files, file1 and file2, containing the word
+# 'one' one and the word 'two' the other. Run (inside the kat1 directory) the command 'cp *' and
+# explain the result. Then run the command 'mv *' and explain the result.
+#
+# Answer:
+# Create directory mkdir kat1 and enter it cd kat1. I create ta files with the commands
+# echo 'one' > file1 and echo 'two' > file2. I run the command cp *. Finally I run the command mv * .
+#
+# Result of executing the command:
+#
+# cp *
+# cat file1
+#
+# one
+#
+# cat file2
+#
+# one
+#
+# The cp command is expressed as cp [options] source destination. cp * translates to cp file1 file2.
+# This means it copies file1 from the current folder to a file named file2 in the current folder
+# folder. It's just that in this particular case we already have a file named file2 and cp does it
+# overwrite.
+#
+# mv *
+# ls
+#
+# file2
+#
+# The mv * command is executed with the same logic. renames file1 to file2 and since we already have the
+# file2 overwrites it.
+#
+
+mkdir cat1
+cd cat1
+echo 'one' > file1
+echo 'two' > file2
+cp *
+mv *
+
+#
+# Question 10.
+# Display the lines of the file 'ask1.txt' which end with one or more consecutive digits.
+#
+# Answer:
+# I use the command egrep '[0-9]$' ask1.txt. egrep as a command searches files for patterns that
+# we gave. [0-9] is the numbers from 0 to 9 and $ means at the end of each line.
+#
+# Result of executing the command:
+#
+# Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# Nick Pappas nick4 11223 Aigaleo 5324123
+# Helen Thanoy helen36 11132 Peristeri 9718345
+# Vasilis Mamalis vas32 12345 Dafni 9738383
+#
+# We see that it selected all the lines ending in numbers and not the ones with dashes.
+#
+
+egrep '[0-9]$' ask1.txt
+
+#
+# Question 11.
+# Display the lines of the file 'ask1.txt' which contain the template 'Pap' but not
+# contain the template 'Aig'.
+#
+# Answer:
+# Display the request with the command egrep 'Pap' ask1.txt | egrep -v Aig . H egrep 'Pap' ask1.txt
+# will show us the lines that have Pap and | we transfer the results
+# of (pipeline) in egrep -v Aig where it removes lines containing the Aig pattern.
+#
+# Result of executing the command:
+#
+# ask1.txt:George Pappas george2 12136 Peristeri -------
+#
+
+egrep 'Pap' ask1.txt | egrep -v Aig
+
+#
+# Question 12.
+# Display the lines of the file 'ask1.txt' which do not start with 'G' or 'N' and contain
+# followed by (somewhere in their contents) the templates 'Geo' and 'Per' in that order.'
+#
+# Answer:
+# I will use egrep '^[^GN]' ask1.txt | egrep 'Geo.*Per' where '^[^GN]' indicates that we want
+# line should not start with G or N, 'Geo.*Per' should contain Geo and Per regardless of
+# intermediate number of characters but we want them in this order.
+#
+# Result of executing the command:
+#
+# Helen Georgioy helen3 12136 Peristeri 5748456
+#
+
+egrep '^[^GN]' ask1.txt | egrep 'Geo.*Per'
+
+#
+# Question 13.
+# How many users whose username does not start with 'ls1' are connected to the system?
+#
+# Answer:
+# With who | egrep -v 'ls1' where with who we see the logged in users on the system.
+#
+# Result of executing the command:
+#
+# zeus pts/0 2020-11-10 15:05 (83.212.114.23)
+# ice18390010 pts/16 2020-11-18 20:18 (5.55.161.162)
+#
+
+who | egrep -v 'ls1'
+
+#
+# Question 14.
+# Display all user (change) processes currently running on the system.
+#
+# Answer:
+# We show all user processes with ps -aux where ps shows a snapshot of them
+# current processes and -u is for the currently logged in user.
+#
+# Result of executing the command:
+# USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+# root 1 0.0 0.0 169880 10736 ? Ss 11:41 0:03 /sbin/init
+# root 2 0.0 0.0 0 0 ? S 11:41 0:00 [kthreadd]
+# ice18390+ 1232 0.0 0.0 21520 9560 ? Ss 11:41 0:00 /lib/systemd/sy
+# ice18390+ 1233 0.0 0.0 23604 2720 ? S 11:41 0:00 (sd-pam)
+#
+# The results of this command are too many to write to this file.
+#
+
+ps - aux
+
+#
+# Question 15.
+# How many user (change) processes are running on the system and their name ends with 'sh'?
+#
+# Answer:
+# With the command ps -aux | egrep -c 'sh$'.
+#
+# Result of executing the command:
+#
+#2
+#
+
+ps -aux | egrep -c 'sh$'
+
+#
+# Question 16.
+# What processes (of any kind) are currently running from the administrator account?
+#
+# Answer:
+# We see the processes with the ps -U root -u command. According to man ps: To see every process running
+# as root (real & effective ID) in user format: ps -U root -u
+#
+# Result of executing the command:
+#
+# USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+# root 1 0.0 0.0 169880 10736 ? Ss 11:41 0:03 /sbin/init
+# root 2 0.0 0.0 0 0 ? S 11:41 0:00 [kthreadd]
+# root 3 0.0 0.0 0 0 ? I< 11:41 0:00 [rcu_gp]
+# root 4 0.0 0.0 0 0 ? I< 11:41 0:00 [rcu_par_gp]
+# root 6 0.0 0.0 0 0 ? I< 11:41 0:00 [kworker/0:0H-k
+# root 8 0.0 0.0 0 0 ? I< 11:41 0:00 [mm_percpu_wq]
+#
+# The results of this command are too many to write to this file.
+#
+
+ps -U root -u
+
+# Question 17.
+# How many files in your current directory (only the current directory - not its subdirectories) have
+# permissions 'rw' from everyone and 'x' from no one ?
+#
+# Answer:
+# I use ls -l | egrep "-rw-rw-rw-" where it takes the result of ls -l and picks the files
+# where the "-rw-rw-rw--" patern exists. The first dash indicates that we only want the files, the first one
+# third the rights of the user, the second the rights of the group and the third the rights
+# of the rest. Permissions are r (read) write (write) x (execute) and with rw-
+# we gave read, write and not execute permissions.
+#
+# Result of executing the command:
+#
+# Nothing because there are no files in the current directory with the specified permissions
+#
+
+ls -l | egrep "-rw-rw-rw-"
+
+#
+# Question 18.
+# Find system directories whose name starts with 'b'.
+#
+# Answer:
+# The command find / -type d -name 'b*' will search the directory / for examples of type d i.e. directories
+# and their name starts with b regardless of how many characters follow.
+#
+# Result of executing the command:
+#
+# /boot
+# find: '/var/cache/ldconfig': Permission denied
+# find: '/var/cache/apt/archives/partial': Permission denied
+# find: '/var/log/unattended-upgrades': Permission denied
+#
+# The results are too many to list them all and there is the problem that we don't have any
+# access as normal user to some system files. This is fixed by adding
+# sudo at the beginning of the command or use sudo -i first and then after the command.
+#
+
+sudo find / -type d -name 'b*'
+
+#
+# Question 19.
+# Find and display on the screen with full information all files named that
+# starts with tty and are in the /dev directory.
+#
+# Answer:
+# This is done with find /dev -name 'tty*' -ls . find searches the dev folder for named files
+# starting with tty and with the -ls parameter displays them with full information.
+#
+# Result of executing the command:
+#
+# 120 0 crw------- 1 root root 5, 3 Oct 13 23:39 /dev/ttyprintk
+# 119 0 crw-rw---- 1 root dialout 4, 95 Oct 13 23:39 /dev/ttyS31
+# 118 0 crw-rw---- 1 root dialout 4, 94 Oct 13 23:39 /dev/ttyS30
+# 117 0 crw-rw---- 1 root dialout 4, 93 Oct 13 23:39 /dev/ttyS29
+# 116 0 crw-rw---- 1 root dialout 4, 92 Oct 13 23:39 /dev/ttyS28
+# 115 0 crw-rw---- 1 root dialout 4, 91 Oct 13 23:39 /dev/tty
+#
+# The results are too many to write all of them whenever I write just one sample.
+#
+
+find /dev -name 'tty*' -ls
+
+#
+# Question 20.
+# Sort the contents of the file 'ask1.txt' by username in descending order.
+#
+# Answer:
+# This will be done with sort -rk 3 ask1.txt . sort -rk 3 sorts the lines according to the third
+# column, which is the username, in descending order.
+#
+# Result of executing the command:
+#
+# Vasilis Mamalis vas32 12345 Dafni 9738383
+# Nick Pappas nick4 11223 Aigaleo 5324123
+# Nick Nikolaoy nick23 12232 Aigaleo 5314555
+# Helen Ioannoy helen367 13222 Athens -------
+# Helen Thanoy helen36 11132 Peristeri 9718345
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# George Georgioy george583 11132 Athens -------
+# George Pappas george2 12136 Peristeri -------
+#
+
+sort -rk 3 ask1.txt
+
+#
+# Question 21.
+# Sort the '.c' files in the directory you are working in by size.
+#
+# Answer:
+# With ls -lS *.c we sort the directory's .c files by size by displaying them with
+# detailed information
+#
+# Result of executing the command:
+#
+# No result because the directory contains no .c files.
+#
+
+ls -lS *.c
+
+#
+# Question 22.
+# Sort your account's files with permissions 644 by size.
+#
+# Answer:
+# With ls -lS ~ | egrep '^-rw-r--r--' display full information about our account files
+# sorted by size (ls -lS) and from them I select those that have the requested permissions (644)
+# In general r = 4, w=2, x=1 and I add them. eg 6 is 4 + 2 so r and w.
+#
+# Result of executing the command:
+#
+# No result because my account has no files with permissions 644.
+#
+
+ls -lS ~ | egrep '^-rw-r--r--'
+
+#
+# Question 23.
+# Sort all the contents of the /dev directory first by owner and second
+# as group and save the output to the file 'binfiles.txt'
+#
+# Answer:
+# I run ls -l /dev | sort -k3,4 > binfiles.txt where we display the contents with complete information
+# of /dev , we feed them to sort which sorts them first with the 3rd column and then with the 4th
+# and write them to the binfiles.txt file.
+#
+# Result of executing the command:
+#
+# ls -l /dev | sort -k3,4 > binfiles.txt
+# cat binfiles.txt
+#
+# brw-rw---- 1 root cdrom 11, 0 Oct 13 23:39 sr0
+# crw-rw---- 1 root cdrom 21, 0 Oct 13 23:39 sg0
+# crw-rw---- 1 root dialout 4, 64 Oct 13 23:39 ttyS0
+# crw-rw---- 1 root dialout 4, 65 Oct 13 23:39 ttyS1
+# crw-rw---- 1 root dialout 4, 66 Oct 13 23:39 ttyS2
+# crw-rw---- 1 root dialout 4, 67 Oct 13 23:39 ttyS3
+#
+# The results are many so we show a sample of them.
+#
+
+ls -l /dev | sort -k3,4 > binfiles.txt
+
+#
+# Question 24.
+# Create a file that will contain information only for logged in users that username
+# them starting from 'ls1', sorted by their login date and time.
+#
+# Answer:
+# who | egrep '^ls1' | sort -k3,4 where with who we see the connected users, of them
+# we select those whose name starts with ls1 and with sort we sort them according to
+# connection date and time.
+#
+# Result of executing the command:
+#
+# No result because there are no users with a name starting with ls1
+#
+
+who | egrep '^ls1' | sort -k3,4
+
+#
+# Question 25.
+# In the file 'ask1.txt' change the name 'Nick' (where found) to 'Nickolaos'.
+#
+# Answer:
+# sed -i "s/Nick/Nickolaos/g" ask1.txt where sed is a stream editor and with -i it will save
+# the change in the same file. "s/Nick/Nickolaos/g" means search for Nick and put in his place
+# Nickolaos.
+#
+# Result of executing the command:
+#
+# sed -i "s/Nick/Nickolaos/g" ask1.txt
+# cat ask1.txt
+#
+# George Pappas george2 12136 Peristeri -------
+# Nickolaos Nikolaoy nick23 12232 Aigaleo 5314555
+# George Georgioy george583 11132 Athens -------
+# Helen Georgioy helen3 12136 Peristeri 5748456
+# Nickolaos Pappas nick4 11223 Aigaleo 5324123
+# Helen Ioannoy helen367 13222 Athens -------
+# Helen Thanoy helen36 11132 Peristeri 9718345
+# Vasilis Mamalis vas32 12345 Dafni 9738383
+#
+
+sed -i ‘s/Nick/Nicholaos/g’ ask1.txt
+
+#
+# Question 26.
+# Let the following file system items with protection strings: (a) '-rwxr-x--x', (b) 'drwxr-x---' and
+# (c) 'drwx--x--x'. Explain what kind of items they are and what the user, group and access rights are
+# others in them.
+#
+# Answer:
+# (a) '-rwxr-x--x' is a first dash root file where the owner has read permissions
+# of execution records, the execution read group and the rest execution-only.
+# (b) 'drwxr-x--- ' is a directory because of d at the beginning where the owner has read permissions
+# write run, the group read run and the rest none.
+# (c) 'drwxr-x--x' is a directory because of d at the beginning where the owner has read permissions
+# of execution records, the execution read group and the rest execution-only.
+#
+
+#
+# Question 27.
+# Change the permissions of all files in the 'testdir1' directory so that they are executable
+# and registration only by the owner, while everyone has read access.
+#
+# Answer:
+# To change permissions on testdir1 files I use chmod 744 testdir1/ -R where chmod
+# change permissions to 744 on all contents of testdir1 because of -R .
+#
+# Result of executing the command:
+#
+# chmod 744 testdir1/ -R
+# cd testdir1
+# ls -l
+#
+# -rwxr--r-- 1 ice18390010 ice18390010 354 Nov 17 19:50 ask1link
+#
+
+chmod 744 testdir1/ -R
+
+#
+# Question 28.
+# Change the permissions of the 'testdir1' directory so that only the owner has access
+# and the users of the same group as him, while the rest of the users do not have (you consider that the
+# current directory permissions are 755).
+#
+# Answer:
+# chmod o-rwx testdir1 where o means other and -rwx means remove r w x permissions.
+#
+# Result of executing the command:
+#
+# chmod o-rwx testdir1
+# ls -l
+#
+# -rw-rw-r-- 1 ice18390010 ice18390010 364 Nov 19 13:20 ask1.txt
+# -rw-rw-r-- 1 ice18390010 ice18390010 10735 Nov 19 13:02 binfiles.txt
+# -rw-rw-r-- 1 ice18390010 ice18390010 573 Nov 17 20:06 calfile.txt
+# -rw-rw-r-- 1 ice18390010 ice18390010 927 Nov 17 20:07 full.txt
+# drwxrwxr-x 2 ice18390010 ice18390010 4096 Nov 17 22:03 kat1
+# drwxrwxr-x 2 ice18390010 ice18390010 4096 Nov 17 20:30 mydir1
+# drwxr-x--- 2 ice18390010 ice18390010 4096 Nov 17 21:05 testdir1
+#
+
+chmod o-rwx testdir1
+
+#
+# Question 29.
+# Create a new user on your system with username 'myfriend'. Then change the owner
+# of the file 'ask1.txt' to 'myfriend' and move it to his working directory. Finally limit it
+# available disk space for this user at 10MB.
+#
+# Answer:
+# We create a user with the command sudo useradd myfriend. We change the owner with
+# sudo chown myfriend ask1.txt . We move it with the command sudo mv ~/ask1.txt /home/myfriend.
+#
+# Result of executing the command:
+#
+# pwd
+# /home/myfriend
+#
+# ls
+# ask1.txt
+#
+
+sudo useradd myfriend
+sudo chown myfriend ask1.txt
+sudo mv ask1.txt /home/myfriend
+
+#
+# Question 30.
+# Let the following be:
+# user1@localhost:~$w
+# USER TTY FROM
+# LOGIN@ IDLE JCPU PCPU WHAT
+# user1 pts/0 1.2.3.4 03:34 0.00s 0.38s 0.01s w
+# user2 pts/1 5.6.7.8 03:45 0.00s 0.38s 0.01s ls
+# user3 pts/2 9.7.5.3 03:57 0.00s 0.38s 0.01s ps
+# user1@localhost:~$ ls -al /dev/pts/*
+# crw--w---- 1 user1 tty 136, 0 Oct 25 04:04 /dev/pts/0
+# crw--w--w- 1 user2 tty 136, 1 Oct 25 04:04 /dev/pts/1
+# crw--w--w- 1 user3 tty 136, 2 Oct 25 04:04 /dev/pts/2
+# Explain what kind of file system items the above are, as well as what the following commands will do:
+# user1@localhost:~$ cat > /dev/pts/1
+# user1@localhost:~$ wall "test"
+#
+# Answer:
+# w shows which users are logged in to the system and what they are doing. eg use1 user2
+# ls -al /dev/pts/* shows all files (and hidden ones) with their details
+# directory dev/pts/ .
+# The wall is used to send all connected users a message.
+# In this particular case it displays the word test.
+
+#
+# Question 31.
+# Create the files f1, f2, f3, f4, f5, f6 ,f7 with the following permissions:
+# f1, 757
+# f2, 313
+# f3, 010
+# f4, 642
+# f5, 551
+# f6, 133
+# f7, 111
+# By using the ls –l command and piping its results to
+# egrep command to find the files where:
+# a. The group has r-x rights.
+# b. The user and others have exactly the same rights
+# c. The user, group and others have the same rights to write
+# d. The user, group and others have the same rights for write and execute
+# e. The group and the others have the same rights for read and execute
+#
+# Answer:
+#
+# Create the files with touch f1 f2 f3 f4 f5 f6 f7 and then change chmod and
+# number we want.
+#
+# Result of executing the command:
+#
+# ls -l
+#
+# -rwxr-xrwx 1 ice18390010 ice18390010 0 Nov 27 00:05 f1
+# --wx--x-wx 1 ice18390010 ice18390010 0 Nov 27 00:05 f2
+# ------x--- 1 ice18390010 ice18390010 0 Nov 27 00:05 f3
+# -rw-r---w- 1 ice18390010 ice18390010 0 Nov 27 00:05 f4
+# -r-xr-x--x 1 ice18390010 ice18390010 0 Nov 27 00:05 f5
+# ---x-wx-wx 1 ice18390010 ice18390010 0 Nov 27 00:05 f6
+# ---x--x--x 1 ice18390010 ice18390010 0 Nov 27 00:05 f7
+#
+
+touch f1 f2 f3 f4 f5 f6 f7
+chmod 757 f1
+chmod 313 f2
+chmod 010 f3
+chmod 642 f4
+chmod 551 f5
+chmod 133 f6
+chmod 111 f7
+
+#
+# Question 32.
+# Assume that the lines in the /etc/passwd file are similar to the following:
+# spooneri:x:2107:1067:Pouneridis Sokratis:/home/student/e2021/spouneri:/bin/bash
+# In the fifth field there will always be the last name first and then the user's first name. Only one adjective and
+# only one name, written in uppercase and/or lowercase Latin characters.
+# The rest of the fields will always be written in lowercase Latin characters.
+# Checking the /etc/passwd file and using the egrep command find all (hypothetical)
+# system users where:
+# a. They use bash as a shell
+# b. Their HOME DIRECTORY is located in the /home directory
+# c. Their UID is the same as their GID
+# d. At least the first 5 letters of their last name are also part of their username
+# e. At least the first 3 letters of their last name and the first 3 letters of their first name
+# are also part of their username.
+#
+# Answer:
+# a. egrep 'bash$' /etc/passwd
+# b. egrep ':/home/' /etc/passwd
+#

@@ -1,0 +1,456 @@
+# Question 1.
+#
+# searching.sh file
+#
+
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+         who=$(whoami)
+         echo "$who Is An Impostor"
+         echo "0 Impostors Remain"
+         exit
+fi
+
+echo "First argument is: $1"
+echo "Second argument is: $2"
+
+octal=$(echo "obase=8;$1" | bc)
+
+declare array
+array[0]=0
+array[1]=0
+array[2]=0
+array[3]=0
+array[4]=0
+
+echo "Give directory name(exit to stop):"
+read path
+
+while [ "$path" != "exit" ]
+do
+
+         result1=$(find $path -type f -perm /$octal | wc -l)
+         let array[0]+=$result1
+         echo "------------------------------------------------ -------------------"
+         echo "Files with permission $1 -> $result1"
+         echo "------------------------------------------------ -------------------"
+         find $path -type f -perm /$octal
+         echo ""
+
+         result2=$(find $path -type f -mtime $2 | wc -l)
+         let array[1]+=$result2
+         echo "------------------------------------------------ -------------------"
+         echo "Files modified last $2 day(s) -> $result2"
+         echo "------------------------------------------------ -------------------"
+         find $path -type f -mtime $2 | wc -l
+         echo ""
+
+         result3=$(find $path -type d -atime $2 | wc -l)
+         let array[2]+=$result3
+         echo "------------------------------------------------ -------------------"
+         echo "Directories accessed last $2 day(s) -> $result3"
+         echo "------------------------------------------------ -------------------"
+         find $path -type d -atime $2
+         echo ""
+
+         result4=$(ls -l $path | egrep "^.r..r..r.." | wc -l)
+         let array[3]+=$result4
+         echo "------------------------------------------------ -------------------"
+         echo "Files with read permissions -> $result4"
+         echo "------------------------------------------------ -------------------"
+         ls -l $path | egrep "^.r..r..r.."
+         echo ""
+        
+         result5=$(ls -l $path | egrep "^drwxrwxrwx" | wc -l)
+         let array[4]+=$result5
+         echo "------------------------------------------------ -------------------"
+         echo "Directories with read write execute permissions -> $result5"
+         echo "------------------------------------------------ -------------------"
+         ls -l $path | egrep "^drwxrwxrwx"
+         echo ""
+
+         echo "Give directory name(exit to stop):"
+         read path
+
+done
+
+echo ""
+echo "First Option -> ${array[0]}"
+echo "Second Option -> ${array[1]}"
+echo "Third Option -> ${array[2]}"
+echo "Forth Option -> ${array[3]}"
+echo "Fifth Option -> ${array[4]}"
+
+#
+# Question 2.
+#
+# File teldb.sh
+#
+
+#!/bin/bash
+
+function option_a()
+{
+echo "First name"
+read first_name
+echo "Last name"
+read last_name
+echo "City"
+read city
+echo "Phone"
+read phone
+echo "$first_name $last_name $city $phone">>catalog
+}
+
+function option_l()
+{
+echo "All lines, numbered:"
+cat -n -s catalog
+}
+
+function option_s()
+{
+column=$1
+if [ $column -le 4 ] && [ $column -ge 1 ]; then
+cat catalog | sort -u -k$column
+else
+echo "Wrong parameters."
+usage
+fi
+}
+
+function option_c()
+{
+keyword=$1
+result=$(egrep -c "$keyword" catalog)
+
+if [ $result -eq 0 ]; then
+echo "No lines containing -> $keyword"
+else
+echo "Lines containing -> $keyword"
+egrep "$keyword" catalog
+fi
+}
+
+function option_d()
+{
+keyword=$1
+option=$2
+result=$(egrep -c "$keyword" catalog)
+if [ $result -eq 0 ]; then
+echo "No lines containing -> $keyword"
+else
+if [ "$option" == "-b" ]; then
+         sed -i "/$keyword/c\ " catalog
+echo "Lines replaced with blank ones."
+elif [ "$option" == "-r" ]; then
+sed -i '/$keyword/d' catalog
+echo "Lines deleted."
+else
+echo "Wrong parameters."
+usage
+fi
+fi
+}
+
+function option_n()
+{
+result=$(egrep -c '^$' catalog)
+echo "Blank lines -> $result"
+
+if [ $result -eq 0 ]; then
+echo "No blank lines."
+exit
+fi
+
+echo "Delete them? (y/Y/n/N)"
+read option
+
+if [ "$option" == "y" ] || [ "$option" == "Y" ]; then
+sed -i '/^$/d' catalog
+echo "Lines deleted."
+elif [ "$option" == "n" ] || [ "$option" == "N" ]; then
+echo "Lines NOT deleted."
+else
+echo "Oh I assume you cannot read."
+usage
+fi
+}
+
+function usage()
+{
+echo ""
+echo "Hello user, I am the usage manual."
+echo "Run the script like:"
+echo "teldb [OPTION] [PARAM1] [PARAM2]"
+echo "[OPTION]"
+echo "-a Add record."
+echo "-l Display contents."
+echo "-s Display contents sorted by column [PARAM1]."
+echo "-c Display lines based on keyword [PARAM1]."
+echo "-d Delete or replace lines containing keyword [PARAM1] base on option [PARAM2]"
+echo "-n Delete blank lines."
+echo "[PARAM2]"
+echo "-b Replace with blank line."
+echo "-r Delete line."
+}
+
+
+case $1 in
+
+-a)
+option_a
+???
+
+-l)
+option_l
+???
+
+-s)
+option_s $2
+???
+
+-c)
+option_c $2
+???
+
+-d)
+option_d $2 $3
+???
+
+-n)
+option_n
+???
+*)
+usage
+???
+
+esac
+exit
+
+
+#
+# Question 3.
+#
+# createpvs.sh file
+#
+
+#!/bin/bash
+
+ROOTFOLDER=$1
+no_of_DBFOLDERS=$2
+no_of_DATAFOLDERS=$3
+USERNAME=$4
+
+if [ "$#" -ne 4]; then
+         echo "Check number of parameters and try again."
+         exit
+fi
+
+if [ -d "$ROOTFOLDER" ]; then
+         echo "Folder exists."
+else
+         echo "Folder does not exist."
+         exit
+fi
+
+result=$(grep -c "^$USERNAME:" /etc/passwd)
+
+if [ $result -gt 0 ]; then
+         echo "User exists."
+else
+         echo "User does not exist."
+         exit
+fi
+
+cd $ROOTFOLDER
+start=1
+end_dbfolders=$no_of_DBFOLDERS
+while [ $start -le $end_dbfolders ]
+do
+         let temp=$start+1
+         if [ -d dbfolder$start ] || [ -d dbfolder$temp ]; then
+                 let start+=1;
+                 let end_dbfolders+=1;
+         else
+                 mkdir dbfolder$start
+                 let start+=1
+         fi
+done
+echo "dbfolders created."
+
+start=1
+end_datafolders=$no_of_DATAFOLDERS
+while [ $start -le $end_datafolders ]
+do
+         let temp=$start+1
+         if [ -d datafolder$start ] || [ -d datafolder$temp ]; then
+                 let start+=1;
+                 let end_datafolders+=1;
+         else
+                 mkdir datafolder$start
+                 let start+=1
+         fi
+done
+echo "datafolders created."
+
+let start=$end_dbfolders-$no_of_DBFOLDERS+1
+end=$end_dbfolders
+echo "$start $end"
+while [ $start -le $end ]
+do
+         sudo chown $USERNAME dbfolder$start
+         let start+=1
+done
+echo "dbfolders changed owner."
+
+let start=$end_datafolders-$no_of_DATAFOLDERS+1
+end=$end_datafolders
+echo "$start $end"
+while [ $start -le $end ]
+do
+         sudo chown $USERNAME datafolder$start
+         let start+=1
+done
+echo "datafolders changed owner."
+exit
+
+#
+# Question 4.
+#
+# File bck.sh
+#
+
+#!/bin/bash
+
+if [ $# -ne 3 ]; then
+         exit
+fi
+
+if [ -d "$2" ]; then
+     echo "$2 is a directory."
+elif [ -f "$2" ]; then
+     echo "$2 is a file."
+else
+     echo "$2 is not valid."
+     exit
+fi
+
+
+if [ -d "$3" ]; then
+         echo "$3 is a directory."
+         tar -zcvf $2.tar.gz $2
+         mv $2.tar.gz $3
+         echo "Backup Completed."
+
+elif [ -f "$3" ]; then
+         echo "$3 is a file."
+         tar -zcvf $2.tar.gz $2
+         echo "$2.tar.gz" >> $3
+         echo "Backup Completed."
+
+else
+     echo "$3 is not valid"
+     exit
+fi
+
+#
+# File bck1.sh
+#
+
+#!/bin/bash
+
+if [ $# -ne 4 ]; then
+         exit
+fi
+
+if [ -d "$2" ]; then
+     echo "$2 is a directory."
+elif [ -f "$2" ]; then
+     echo "$2 is a file."
+else
+     echo "$2 is not valid."
+     exit
+fi
+
+
+if [ -d "$3" ]; then
+         echo "$3 is a directory."
+         echo "Backup Scheduled."
+         tar -zcvf $2.tar.gz $2 | at $4
+         mv $2.tar.gz $3
+         echo "Backup Completed."
+
+elif [ -f "$3" ]; then
+         echo "$3 is a file."
+         echo "Backup Scheduled."
+         tar -zcvf $2.tar.gz $2 | at $4
+         echo "$2.tar.gz" >> $3
+         echo "Backup Completed."
+
+else
+     echo "$3 is not valid"
+     exit
+fi
+
+#
+# File bck2.sh
+#
+
+#!/bin/bash
+
+username=$(whoami)
+tar -zcvf home_bck.tar.gz /home/$username
+mv home_bck.tar.gz /tmp
+
+# To run it every Sunday at 23:00 we will run it as follows
+00 11 * * 0 bck2.sh
+
+#
+# Question 5.
+#
+# File mfproc.sh
+#
+
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+         ps - aux
+         exit 0
+elif [ $# -eq 2 ] && [ "$1" == "-u" ]; then
+         result=$(egrep -c "$2:" /etc/passwd)
+         if [ $result -eq 0 ]; then
+                 echo "User not found."
+                 exit 1
+         fi
+
+         ps -u $2
+         exit 0
+
+elif [ $# -eq 4 ] && [ "$1" == "-u" ] && [ "$3" == "-s" ]; then
+
+         result=$(egrep -c "$2:" /etc/passwd)
+         if [ $result -eq 0 ]; then
+                 echo "User not found."
+                 exit 1
+         fi
+         if [ "$4" != "R" ] && [ "$4" != "S" ] && [ "$4" != "Z" ]; then
+                 echo "Wrong type of process."
+                 exit
+         fi
+
+         for pid in $(ps -u $2 | awk '{ print $1 }'); do
+                 if [ "$pid" == "PID" ]; then
+                         continue
+                 fi
+                 result=$(egrep -c "$4" /proc/$pid/status)
+                 if [ $result -ne 0 ]; then
+                         echo "Process $pid is $4"
+                 fi
+         done
+         exit 0
+else
+         echo "Wrong number/type of arguments."
+         exit
+fi

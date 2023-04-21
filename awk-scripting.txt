@@ -1,0 +1,267 @@
+# Question 1.
+# Via vi create a file named grades that includes
+# about 15 records of the following format: (columns in order correspond
+# in First Name, Last Name, Address, Rank_1, Rank_2, Rank_3, Rank_4, with
+# direction to take values Texn, Thet, Theo and degrees to vary
+# between 0 and 100).
+# Thomas GeorgiouTexn 96 89 81 84
+# Mary MakridiThet 67 75 56 74
+# Nick Aliferis Theo 81 87 75 94
+# Give the awk commands that return for the grades file:
+# 1. Whose names start with K or N (last name is printed and then first name).
+# 2. Whose last name starts from C to L (print first name and then last name).
+# 3. Which people have the 2nd and 4th degree greater than 85 (print all data).
+# 4. Which students are of the theoretical direction (print all the data).
+# 5.The first name, the last name and then the average of the four grades.
+# 6. How many people have the third degree less than 70
+# 7. How many people's last name ends in is.
+#
+# Answer:
+# Create grades file.
+# Nikos Nikolaou Texn 87 76 89 76
+# Marinos Ganoglou Theo 55 56 68 53
+# Kiriakos Mastrotzis Theo 76 78 78 79
+# Sotiris Dimelis Texn 54 55 56 68
+# Theofylaktos Metriadis Thet 81 84 57 76
+# Adonis Anagnidis Thet 76 56 45 78
+# Ioannis Vidalou Theo 43 56 55 45
+# Vasileia Mirili Texn 68 89 88 87
+# Amalia Sidera Texn 54 57 89 70
+# Theofania Rubiade Thet 67 69 75 56
+# Demi Pavlea Thet 54 49 47 56
+# Filia Managidi Texn 57 89 87 90
+# Pinelope Rellea Thet 90 93 95 89
+# Sophia Gallotti Theo 97 88 87 98
+# Vaso Manou Texn 67 69 78 76
+#
+# 1. awk '$1 ~ /^K|^N/{print $2,$1}' grades
+# Nikolaou Nikos
+# Mastrotzis Kiriakos
+#
+# 2. awk '$2 ~ /^[C-L]/{print $1,$2}' grades
+# Marinos Ganoglou
+# Sotiris Dimelis
+# Sophia Gallotti
+#
+# 3. awk '$5>85 && $7>85' grades
+# Vasileia Mirili Texn 68 89 88 87
+# Filia Managidi Texn 57 89 87 90
+# Pinelope Rellea Thet 90 93 95 89
+# Sophia Gallotti Theo 97 88 87 98
+#
+# 4. awk '$3 ~ /Theo/' grades
+# Marinos Ganoglou Theo 55 56 68 53
+# Kiriakos Mastrotzis Theo 76 78 78 79
+# Ioannis Vidalou Theo 43 56 55 45
+# Sophia Gallotti Theo 97 88 87 98
+#
+# 5. awk '{sum=$4+$5+$6+$7; print $1,$2,sum/4}' grades
+# Nikos Nikolaou 82
+# Marinos Ganoglou 58
+# Kiriakos Mastrotzis 77.75
+# Sotiris Dimelis 58.25
+# Theophylactos Metriadis 74.5
+# Adonis Anagnidis 63.75
+# Ioannis Vidalou 49.75
+# Vasileia Mirili 83
+# Amalia Sidera 67.5
+# Theofania Rubiade 66.75
+# Demi Pavlea 51.5
+# Filia Managidi 80.75
+# Pinelope Rellea 91.75
+# Sophia Gallotti 92.5
+# Vaso Manou 72.5
+#
+# 6. awk '$6<70 {sum+=1} END {print sum}' grades
+#7
+#
+# 7. awk '$2 ~ /is$/ {sum += 1} END {print sum}' grades
+#4
+
+awk '$1 ~ /^K|^N/{print $2,$1}' grades
+awk '$2 ~ /^[C-L]/{print $1,$2}' grades
+awk '$5>85 && $7>85' grades
+awk '$3 ~ /Theo/' grades
+awk '{sum=$4+$5+$6+$7; print $1,$2,sum/4}' grades
+awk '$6<70 {sum+=1} END {print sum}' grades
+awk '$2~ /is$/ {sum += 1} END {print sum}' grades
+
+#
+# Question 2.
+# Write awk script which after applied to the grades file
+# produce the file students which will contain entries of the form:
+# Student 1, ThomasGeorgiou, ........
+# Student 2, MaryMakridi, ........
+# Student 3, NickAliferis, ........
+# Where the average per student will be placed in the decimal place.
+# Also provide the command that will sort students by mean.
+#
+# Answer:
+# #!/bin/awk -f
+# BEGIN { OFS=", "; sum=0 }
+# {num+=1; avg=($4+$5+$6+$7)/4; print "Student " num,$1,$2,avg > "students"}
+#
+# Student 1, Nikos, Nikolaou, 82
+# Student 2, Marinos, Ganoglou, 58
+# Student 3, Kiriakos, Mastrotzis, 77.75
+# Student 4, Sotiris, Dimelis, 58.25
+# Student 5, Theophylactos, Metriadis, 74.5
+# Student 6, Adonis, Anagnidis, 63.75
+# Student 7, Ioannis, Vidalou, 49.75
+# Student 8, Vasileia, Mirili, 83
+# Student 9, Amalia, Sidera, 67.5
+# Student 10, Theofania, Rubiade, 66.75
+# Student 11, Demi, Pavlea, 51.5
+# Student 12, Filia, Managidi, 80.75
+# Student 13, Pinelope, Rellea, 91.75
+# Student 14, Sophia, Galloti, 92.5
+# Student 15, Vaso, Manou, 72.5
+#
+# sort -k 5 students
+#
+# Student 7, Ioannis, Vidalou, 49.75
+# Student 11, Demi, Pavlea, 51.5
+# Student 2, Marinos, Ganoglou, 58
+# Student 4, Sotiris, Dimelis, 58.25
+# Student 6, Adonis, Anagnidis, 63.75
+# Student 10, Theofania, Rubiade, 66.75
+# Student 9, Amalia, Sidera, 67.5
+# Student 15, Vaso, Manou, 72.5
+# Student 5, Theophylactos, Metriadis, 74.5
+# Student 3, Kiriakos, Mastrotzis, 77.75
+# Student 12, Filia, Managidi, 80.75
+# Student 1, Nikos, Nikolaou, 82
+# Student 8, Vasileia, Mirili, 83
+# Student 13, Pinelope, Rellea, 91.75
+# Student 14, Sophia, Galloti, 92.5
+
+#!/bin/awk -f
+BEGIN { OFS=", "; sum=0 }
+{num+=1; avg=($4+$5+$6+$7)/4; print "Student " num,$1,$2,avg > "students"}
+
+sort -k 5 students
+
+#
+# Question 3.
+# Write awk script which after applying to the grades file will print
+# the average per subject for each of the four subjects.
+#
+# Answer:
+# #!/bin/awk -f
+# BEGIN {count=0}
+# {count+=1; sum1+=$4; sum2+=$5; sum3+=$6; sum4+=$7}
+# END { print sum1/count,sum2/count,sum3/count,sum4/count}
+#
+# 64.125 66.5 68.375 68.5625
+#
+
+#!/bin/awk -f
+BEGIN {count=0}
+{count+=1; sum1+=$4; sum2+=$5; sum3+=$6; sum4+=$7}
+END {print sum1/count,sum2/count,sum3/count,sum4/count}
+
+#
+# Question 4.
+# Create a plain text file named textfile containing
+# words so that each line contains a different number of words.
+# Write awk script which, accepting as input the file textfile, will print
+# its contents in REVERSE ORDER.
+#
+# Answer:
+
+#
+# Question 5.
+# Write an awk command that displays the sum of the sizes of all files
+# (files only) of the directory you are working in.
+#
+# Answer:
+# ls -l | awk! /^d/ {sum+=$5} END {print sum}'
+# 1752
+#
+
+ls -l | awk! /^d/ {sum+=$5} END {print sum}'
+
+#
+# Question 6.
+# Create the text file ekloges containing 15 lines of the form:
+# Karydhs y n y y y n n y n n n y n y n n
+# Markopoulos y y n n n y n y n y y n n n y
+# where each line corresponds to a candidate of some election and contains his name
+# and the positive ('y') and negative ('n') votes he received during this election
+# with a total of 15 votes. Write an awkscript to apply to the file
+# ekloges and print the name of the candidate who won the election (that is, the one who
+# received the most upvotes).
+#
+# Answer:
+# #!/bin/awk -f
+# BEGIN {max=0}
+# {
+# count=0
+# for (j=2; j<=16; j++) {
+# if ($j == "y") {
+# count++
+# }
+# }
+# if (max < count) {
+# max=count
+# winner=$1
+# }
+# }
+# END {print "Winner: " winner}
+#
+# Winner: Zenides
+#
+
+#!/bin/awk -f
+BEGIN {max=0}
+{
+count=0
+         for (j=2; j<=16; j++) {
+                 if ($j == "y") {
+                         count++
+                 }
+         }
+
+         if (max < count) {
+                 max=count
+                 winner=$1
+         }
+}
+END {print "Winner: " winner}
+
+#
+# Question 7.
+# Provide the appropriate awk command that is equivalent to the grep –c ^str file command
+# where str is assumed to be any particular alphanumeric and the
+# file is assumed to be any existing (specific) file.
+#
+# Try to expand the command you made above to a corresponding shell
+# script which will do (using awk) the same job, for str values though
+# files that will be requested with an appropriate command to be given at that time by the user.
+#
+# Answer:
+# awk '/^str/ {count++} END {print count}' file
+#
+# #!/bin/bash
+# if [ "$#" -ne 0 ]; then
+# echo "Wrong number of arguments."
+# exit
+# fi
+# echo "Give pattern: "
+# read string
+# echo "Give file name: "
+# read file_name
+# awk -v pattern="^$string" '$0 ~ pattern {count++} END {print "Found: " count}' $file_name
+
+awk '/^str/ {count++} END {print count}' file
+
+#!/bin/bash
+if [ "$#" -ne 0 ]; then
+         echo "Wrong number of arguments."
+         exit
+fi
+echo "Give pattern: "
+read string
+echo "Give file name: "
+read file_name
+awk -v pattern="^$string" '$0 ~ pattern {count++} END {print "Found: " count}' $file_name
